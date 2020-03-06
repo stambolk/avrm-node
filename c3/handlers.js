@@ -28,9 +28,15 @@ const calc = (req,res) => {
     res.send(result.toString());
 }
 
+const post = (req, res) => {
+    let pozdrav = `Zdravo ${req.body.ime} ${req.body.prezime}`;
+    res.send(pozdrav)
+}
+
 module.exports = {
     index,
     pero,
     name,
-    calc
+    calc,
+    post
 };
