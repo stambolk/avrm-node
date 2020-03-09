@@ -3,7 +3,8 @@ const hbs = require('hbs'); //handlebars
 const bodyParser = require("body-parser");
 var fs = require('fs');
 let app = express();
-app.set('view engine', 'hbs');
+app.set('view engine', 'hbs'); //install express hbs 
+hbs.registerPartials(`${__dirname}/views/partials`);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 
@@ -39,29 +40,32 @@ const post = (req, res) => {
     res.redirect('/studenti');
 }
 
-app.post('/students', post);
-
-
-
-fs.readFile('studenti.JSON', 'utf8', (err,data) =>{
-if (err) throw err;
-const students = JSON.parse(data);
-var imeNaStudenti = [];
-students.forEach(e => imeNaStudenti.push(e.ime));
-var prezimeNaStudenti = [];
-students.forEach(e => prezimeNaStudenti.push(e.prezime));
-var prosekNaStudenti = [];
-students.forEach(e => prosekNaStudenti.push(e.prosek));
-app.get('/s', (req,res)=>{
-    let studentData = {
-        ime : imeNaStudenti,
-        prezime: prezimeNaStudenti,
-        prosek: prosekNaStudenti
-     };
-     res.render('tabela' , studentData) ;
-});
+app.get('/students', (req,res)=>{
+    fs.readFile('./studenti.json', (err,data)=>{
+        if(err) {
+            res.status(400).send('bad req');
+            return;
+        }
+        let out= {
+            students: JSON.parse(data)
+        };
+        res.render('/students', out)
+    });
 });
 
+app.get('/students/delete/:id', (res,req) => {
+    fs.readFile('./studenti.json', 'utf8', (err,data)=>{
+        if(err) {
+            res.status(400).send('bad req');
+            return;
+        }
+        let out= {
+            students: JSON.parse(data)
+        };
+        res.render('/students', out)
+    });
+
+});
 
 
 app.listen(4200, (err) =>{

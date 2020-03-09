@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="/styles/main.css">
+{{>header}}
+
 <table border="1">
 
 <form method="post" actions="/students">
@@ -34,5 +36,8 @@
         <td>{{#each prosek}}
             <i>{{this}}<br></i>
             {{/each}}</td>
+            <td>
+         <a href="/students/delete/{{@index}}">delete</a>
+            </td>
     </tr>
 </table>
