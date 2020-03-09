@@ -5,6 +5,7 @@ var fs = require('fs');
 let app = express();
 app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
    //res.send('OK')
