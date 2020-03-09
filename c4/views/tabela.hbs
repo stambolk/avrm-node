@@ -1,0 +1,37 @@
+<table border="1">
+
+<form method="post" actions="/students">
+<label>
+    ime: <br/>
+    <input type="text" name="ime">
+</label>
+<br>
+<label>
+    prezime: <br/>
+    <input type="text" name="prezime">
+</label>
+<br>
+<label>
+    prosek: <br/>
+    <input type="text" name="prosek">
+</label>
+<button>submit</button>
+<br>
+</form>
+    <tr>
+        <th>Ime</th>
+        <th>Przime</th>
+        <th>Prosek</th>
+    </tr>
+    <tr>
+        <td>{{#each ime}}
+            <i>{{this}}<br></i>
+            {{/each}}</td>
+        <td>{{#each prezime}}
+            <i>{{this}}<br></i>
+            {{/each}}</td>
+        <td>{{#each prosek}}
+            <i>{{this}}<br></i>
+            {{/each}}</td>
+    </tr>
+</table>
