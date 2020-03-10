@@ -3,70 +3,70 @@ const hbs = require('hbs'); //handlebars
 const bodyParser = require("body-parser");
 var fs = require('fs');
 let app = express();
+
 app.set('view engine', 'hbs'); //install express hbs 
 hbs.registerPartials(`${__dirname}/views/partials`);
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-   //res.send('OK')
-   res.render('main');
+app.get('/', (req,res) => {
+    res.render('main');
 });
 
-app.get('/ime/:ime' , (req, res) => {
-   let data = {
-      ime: req.params.ime,
-      prezime: 'Lolce',
-      denovi: ['pon','vto','sre','cet','pet', 'sab', 'ned']
-   };
-   res.render('ime', data);
-});
-
-const post = (req, res) => {
-    fs.readFile('studenti.json', 'utf8', (err, data) => {
-        if (err) throw err;
-        const students = JSON.parse(data);  
-    students.push({
-        ime: req.body.ime,
-        prezime: req.body.prezime,
-        prosek: req.body.prezime,
-    });
-    fs.writeFile('studenti.json', JSON.stringify(students) , (err) => {
-        if (err) throw err;
-        console.log('JSON updated!');
-        return;
-        });
-    });   
-    res.redirect('/studenti');
-}
+app.get('/ime/:ime', (req, res) => {
+    var data = {
+        ime: req.params.ime,
+        prezime: 'Lolce',
+        denovi: ['pon','vtor','sre','cet']
+    };
+    res.render('ime'/*handlebar*/, data)
+})
 
 app.get('/students', (req,res)=>{
-    fs.readFile('./studenti.json', (err,data)=>{
-        if(err) {
-            res.status(400).send('bad req');
-            return;
-        }
-        let out= {
-            students: JSON.parse(data)
-        };
-        res.render('/students', out)
-    });
+  fs.readFile('./studenti.json', 'utf8', (err,data) => {
+    if(err) throw err;
+    var output = {
+        students: JSON.parse(data)
+    };
+    res.render('students', output)
+  });
 });
 
-app.get('/students/delete/:id', (res,req) => {
-    fs.readFile('./studenti.json', 'utf8', (err,data)=>{
-        if(err) {
-            res.status(400).send('bad req');
-            return;
-        }
-        let out= {
-            students: JSON.parse(data)
-        };
-        res.render('/students', out)
-    });
 
+app.post('/students', (req,res)=>{
+   fs.readFile('./studenti.json','utf8', (err,data)=>{
+     if(err) throw err;
+     data = JSON.parse(data);
+     data.push({
+         ime: req.body.ime,
+         prezime: req.body.prezime,
+         prosek: req.body.prosek
+     });
+     data = JSON.stringify(data);
+     fs.writeFile('./studenti.json', data, (err)=>{
+         if (err) throw err;
+         res.redirect('/students');
+     });
+   });
 });
 
+app.get('/students/delete/:id', (req,res) => {
+   fs.readFile('./studenti.json', 'utf8', (err,data)=>{
+     if(err) throw err;
+     data = JSON.parse(data)
+     data = data.filter((v, i)=>{
+         if(i != req.params.id){
+             return v;
+         }
+     });
+     data = JSON.stringify(data);
+     fs.writeFile('./studenti.json', data, (err)=>{
+         if(err) throw err;
+         res.redirect('/students');
+     });
+   });
+});
 
 app.listen(4200, (err) =>{
     if(err) {
