@@ -8,7 +8,7 @@ app.set('view engine', 'hbs'); //install express hbs
 hbs.registerPartials(`${__dirname}/views/partials`);
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 
 app.get('/', (req,res) => {
     res.render('main');
@@ -21,7 +21,7 @@ app.get('/ime/:ime', (req, res) => {
         denovi: ['pon','vtor','sre','cet']
     };
     res.render('ime'/*handlebar*/, data)
-})
+});
 
 app.get('/students', (req,res)=>{
   fs.readFile('./studenti.json', 'utf8', (err,data) => {
