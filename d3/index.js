@@ -75,9 +75,6 @@ app.get('/edit/:id',(req,res)=>{
     });
  });
 
-
-
-
 app.get('/delete/:id',(req,res)=>{
     Students.deleteOne(
         {_id: req.params.id},
