@@ -1,0 +1,63 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+    <form method="post" action="/newstudent">
+    <label>
+        Ime
+        <input type="text" name="ime">
+    </label>
+    <br>
+    <label>
+        Prezime
+        <input type="text" name="prezime">
+    </label>
+    <br>
+    <label>
+        Grad
+        <input name="grad" type="text"></input>
+    </label>
+    <br>
+     <label>
+        Prosek
+        <input name="prosek" type="text" ></input>
+    </label>
+    <button  type="submit">Submit</button>
+    </form>
+
+ <table border="2">
+           <tr>
+               <th>Ime</th>
+               <th>Prezime</th>
+               <th>Grad</th>
+               <th>Prosek</th>
+           </tr>
+          {{#each students}}
+           <tr>
+               <td>{{this.ime}}</td>
+               <td>{{this.prezime}}</td>
+               <td>{{this.grad}}</td>
+               <td>{{this.prosek}}</td>
+               <td><button> <a href="/delete/{{this._id}}">  DELETE </a></button></td>
+               <td><button><a href="/edit/{{this._id}}">  EDIT </a></button></td>
+           </tr>
+           {{/each}}
+</table>
+</center>
+
+
+
+
+
+ 
+
+    
+</body>
+</html>
