@@ -44,7 +44,7 @@ const getOne = (id) => {
 }
 
 const updateOne = (id,data) => {
-    return new Promise((succ,fail)=>{
+    return new Promise((success,fail)=>{
         Movie.updateOne({_id:id},data , (err)=>{
             if(err){return fail(err)}
             return success();
